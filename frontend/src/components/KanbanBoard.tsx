@@ -1,10 +1,3 @@
-// ============================================================
-// KanbanBoard — Drag & Drop para gerenciar status de tarefas.
-// Usa @hello-pangea/dnd (fork do react-beautiful-dnd).
-// useMemo agrupa as tarefas por status para evitar recálculos.
-// Ao dropar, chama PATCH /tarefas/{id}/status via TarefaService.
-// ============================================================
-
 import { useMemo, useCallback } from 'react';
 import {
   DragDropContext,
@@ -29,7 +22,7 @@ import type { ITarefa, TarefaStatus } from '@/types';
 
 interface KanbanBoardProps {
   tarefas: ITarefa[];
-  onStatusChanged: () => void; // callback para revalidar dados via SWR
+  onStatusChanged: () => void;
   onTarefaClick?: (tarefa: ITarefa) => void;
 }
 
@@ -65,7 +58,7 @@ const PRIORIDADE_COLORS: Record<string, string> = {
 export default function KanbanBoard({ tarefas, onStatusChanged, onTarefaClick }: KanbanBoardProps) {
   const { enqueueSnackbar } = useSnackbar();
 
-  // useMemo para agrupar tarefas por status — evita recálculo a cada render
+
   const grouped = useMemo(() => {
     const map: Record<TarefaStatus, ITarefa[]> = {
       pendente: [],
@@ -78,12 +71,11 @@ export default function KanbanBoard({ tarefas, onStatusChanged, onTarefaClick }:
     return map;
   }, [tarefas]);
 
-  // useCallback para estabilizar o handler do drag-end
+
   const handleDragEnd = useCallback(
     async (result: DropResult) => {
       const { destination, source, draggableId } = result;
 
-      // Drop fora de uma zona válida ou na mesma posição
       if (!destination || destination.droppableId === source.droppableId) return;
 
       const tarefaId = parseInt(draggableId, 10);
@@ -95,7 +87,7 @@ export default function KanbanBoard({ tarefas, onStatusChanged, onTarefaClick }:
           variant: 'success',
         });
 
-        // Se todas as tarefas estão concluídas, sugere inativar o projeto
+
         if (response.sugerir_inativacao) {
           enqueueSnackbar(
             '🎉 Todas as tarefas concluídas! Considere inativar o projeto.',
@@ -103,7 +95,7 @@ export default function KanbanBoard({ tarefas, onStatusChanged, onTarefaClick }:
           );
         }
 
-        onStatusChanged(); // Revalida dados via SWR mutate
+        onStatusChanged();
       } catch {
         enqueueSnackbar('Erro ao atualizar status da tarefa.', { variant: 'error' });
       }

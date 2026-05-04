@@ -1,10 +1,3 @@
-// ============================================================
-// Projetos — Página principal de listagem de projetos.
-// Dashboard com gráfico Chart.js + Tabela MUI com ordenação/paginação.
-// Usa SWR para data fetching declarativo (useSWR + fetcher).
-// useMemo para memoizar dados ordenados e filtrados.
-// ============================================================
-
 import { useState, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useSWR from 'swr';
@@ -29,6 +22,8 @@ import {
   Stack,
   Card,
   CardContent,
+  ToggleButton,
+  ToggleButtonGroup,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
@@ -85,23 +80,32 @@ export default function Projetos() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
+  // Estado do filtro de status
+  const [statusFilter, setStatusFilter] = useState<'todos' | 'ativo' | 'inativo'>('todos');
+
   // Estado do dialog de exclusão
   const [deleteDialog, setDeleteDialog] = useState<{ open: boolean; projeto?: IProjeto }>({
     open: false,
   });
   const [deleting, setDeleting] = useState(false);
 
+  // --- useMemo: Filtragem por status ---
+  const filteredProjetos = useMemo(() => {
+    if (!projetos) return [];
+    if (statusFilter === 'todos') return projetos;
+    return projetos.filter((p) => p.status === statusFilter);
+  }, [projetos, statusFilter]);
+
   // --- useMemo: Ordenação memoizada para evitar recálculo a cada render ---
   const sortedProjetos = useMemo(() => {
-    if (!projetos) return [];
-    return [...projetos].sort((a, b) => {
+    return [...filteredProjetos].sort((a, b) => {
       const aVal = a[orderBy] ?? '';
       const bVal = b[orderBy] ?? '';
       if (aVal < bVal) return order === 'asc' ? -1 : 1;
       if (aVal > bVal) return order === 'asc' ? 1 : -1;
       return 0;
     });
-  }, [projetos, order, orderBy]);
+  }, [filteredProjetos, order, orderBy]);
 
   // Dados paginados
   const paginatedProjetos = useMemo(() => {
@@ -195,7 +199,7 @@ export default function Projetos() {
   return (
     <Box>
       {/* Header */}
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3, flexWrap: 'wrap', gap: 2 }}>
         <Box>
           <Typography variant="h4" sx={{ fontWeight: 800 }}>
             Projetos
@@ -204,14 +208,41 @@ export default function Projetos() {
             Gerencie seus projetos e acompanhe o progresso das tarefas.
           </Typography>
         </Box>
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={() => navigate('/projetos/cadastro')}
-          id="btn-novo-projeto"
-        >
-          Novo Projeto
-        </Button>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          {/* Filtro por status */}
+          <ToggleButtonGroup
+            value={statusFilter}
+            exclusive
+            onChange={(_, val) => { if (val) { setStatusFilter(val); setPage(0); } }}
+            size="small"
+            id="filtro-status"
+            sx={{
+              '& .MuiToggleButton-root': {
+                textTransform: 'none',
+                fontWeight: 600,
+                px: 2,
+                borderColor: 'divider',
+                '&.Mui-selected': {
+                  bgcolor: 'primary.main',
+                  color: '#fff',
+                  '&:hover': { bgcolor: 'primary.dark' },
+                },
+              },
+            }}
+          >
+            <ToggleButton value="todos">Todos</ToggleButton>
+            <ToggleButton value="ativo">Ativos</ToggleButton>
+            <ToggleButton value="inativo">Inativos</ToggleButton>
+          </ToggleButtonGroup>
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={() => navigate('/projetos/cadastro')}
+            id="btn-novo-projeto"
+          >
+            Novo Projeto
+          </Button>
+        </Box>
       </Box>
 
       {/* Dashboard: Cards de resumo + Gráfico */}

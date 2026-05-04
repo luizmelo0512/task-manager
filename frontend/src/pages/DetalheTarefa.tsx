@@ -1,8 +1,3 @@
-// ============================================================
-// DetalheTarefa — Detalhes da tarefa + seção de comentários.
-// Usa SWR para buscar tarefa com comentários eager-loaded.
-// ============================================================
-
 import { useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useSWR from 'swr';

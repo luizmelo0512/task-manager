@@ -1,9 +1,3 @@
-// ============================================================
-// ComentarioSection — Seção inline de comentários em uma tarefa.
-// Exibe lista existente + formulário para adicionar novo comentário.
-// Usa notistack para feedback visual após criação.
-// ============================================================
-
 import { useState, useCallback } from 'react';
 import {
   Box,
@@ -24,7 +18,7 @@ import type { IComentario } from '@/types';
 interface ComentarioSectionProps {
   tarefaId: number;
   comentarios: IComentario[];
-  onComentarioAdded: () => void; // callback para revalidar dados via SWR
+  onComentarioAdded: () => void;
 }
 
 export default function ComentarioSection({
@@ -37,7 +31,7 @@ export default function ComentarioSection({
   const [loading, setLoading] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
 
-  // useCallback estabiliza a referência para evitar re-renders
+
   const handleSubmit = useCallback(async () => {
     if (!autor.trim() || !texto.trim()) {
       enqueueSnackbar('Preencha todos os campos do comentário.', { variant: 'warning' });

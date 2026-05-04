@@ -1,0 +1,174 @@
+{
+  "info": {
+    "name": "Task Manager API",
+    "description": "Coleção Postman para o Sistema de Gerenciamento de Tarefas.\n\nToken de autenticação: PSWCLOUD-TOKEN-2026",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "PSWCLOUD-TOKEN-2026",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000/api"
+    }
+  ],
+  "item": [
+    {
+      "name": "Projetos",
+      "item": [
+        {
+          "name": "Listar Projetos",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/projetos",
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "PSWCLOUD-TOKEN-2026" }] }
+          }
+        },
+        {
+          "name": "Criar Projeto",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/projetos",
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "PSWCLOUD-TOKEN-2026" }] },
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Projeto Exemplo\",\n  \"descricao\": \"Descrição do projeto de exemplo\",\n  \"status\": \"ativo\",\n  \"data_criacao\": \"2026-05-01\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Detalhe do Projeto",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/projetos/1",
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "PSWCLOUD-TOKEN-2026" }] }
+          }
+        },
+        {
+          "name": "Atualizar Projeto",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/projetos/1",
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "PSWCLOUD-TOKEN-2026" }] },
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Projeto Atualizado\",\n  \"descricao\": \"Nova descrição\",\n  \"status\": \"ativo\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Excluir Projeto",
+          "request": {
+            "method": "DELETE",
+            "url": "{{base_url}}/projetos/1",
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "PSWCLOUD-TOKEN-2026" }] }
+          }
+        },
+        {
+          "name": "Resumo do Projeto (Tarefas por Status)",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/projetos/1/resumo",
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "PSWCLOUD-TOKEN-2026" }] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tarefas",
+      "item": [
+        {
+          "name": "Listar Tarefas do Projeto",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/projetos/1/tarefas",
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "PSWCLOUD-TOKEN-2026" }] }
+          }
+        },
+        {
+          "name": "Criar Tarefa",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/tarefas",
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "PSWCLOUD-TOKEN-2026" }] },
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"projeto_id\": 1,\n  \"titulo\": \"Implementar login\",\n  \"descricao\": \"Criar tela de login com autenticação JWT\",\n  \"prioridade\": \"alta\",\n  \"responsavel\": \"Luiz Melo\",\n  \"data_limite\": \"2026-05-15\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Detalhe da Tarefa",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/tarefas/1",
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "PSWCLOUD-TOKEN-2026" }] }
+          }
+        },
+        {
+          "name": "Atualizar Tarefa",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/tarefas/1",
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "PSWCLOUD-TOKEN-2026" }] },
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"projeto_id\": 1,\n  \"titulo\": \"Implementar login atualizado\",\n  \"descricao\": \"Atualização da descrição\",\n  \"prioridade\": \"media\",\n  \"responsavel\": \"Luiz Melo\",\n  \"data_limite\": \"2026-05-20\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Atualizar Status (Kanban)",
+          "request": {
+            "method": "PATCH",
+            "url": "{{base_url}}/tarefas/1/status",
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "PSWCLOUD-TOKEN-2026" }] },
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"em_andamento\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Excluir Tarefa",
+          "request": {
+            "method": "DELETE",
+            "url": "{{base_url}}/tarefas/1",
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "PSWCLOUD-TOKEN-2026" }] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Comentários",
+      "item": [
+        {
+          "name": "Criar Comentário",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/comentarios",
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "PSWCLOUD-TOKEN-2026" }] },
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tarefa_id\": 1,\n  \"autor\": \"Luiz Melo\",\n  \"texto\": \"Tarefa iniciada com sucesso.\"\n}"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

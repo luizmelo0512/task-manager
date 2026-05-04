@@ -1,9 +1,3 @@
-// ============================================================
-// DetalheProjeto — Detalhe do projeto com Kanban de tarefas.
-// Usa SWR para buscar tarefas vinculadas ao projeto.
-// Tarefas atrasadas (prioridade alta + data passada) são destacadas.
-// ============================================================
-
 import { useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useSWR from 'swr';
