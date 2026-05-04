@@ -1,8 +1,3 @@
-// ============================================================
-// CadastroTarefa — Formulário de criação e edição de tarefas.
-// projeto_id vem do URL param. Modo edição detectado por tarefaId.
-// ============================================================
-
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
@@ -16,7 +11,7 @@ import type { TarefaPrioridade } from '@/types';
 
 export default function CadastroTarefa() {
   const navigate = useNavigate();
-  // Pode vir de /projetos/:id/tarefas/cadastro OU /tarefas/:tarefaId/editar
+
   const { id: projetoIdParam, tarefaId } = useParams<{ id: string; tarefaId: string }>();
   const isEdit = Boolean(tarefaId);
   const { enqueueSnackbar } = useSnackbar();
@@ -31,7 +26,7 @@ export default function CadastroTarefa() {
   const [loadingData, setLoadingData] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  // Carrega dados existentes no modo edição
+
   useEffect(() => {
     if (isEdit && tarefaId) {
       setLoadingData(true);

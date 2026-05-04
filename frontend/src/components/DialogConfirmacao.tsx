@@ -1,8 +1,3 @@
-// ============================================================
-// DialogConfirmacao — Dialog genérico de confirmação.
-// Usado para confirmar exclusão de projetos/tarefas.
-// Props tipadas para reutilização em qualquer contexto.
-// ============================================================
 
 import {
   Dialog,

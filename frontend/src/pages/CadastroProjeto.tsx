@@ -1,8 +1,3 @@
-// ============================================================
-// CadastroProjeto — Formulário de criação e edição de projetos.
-// Detecta modo edição via useParams (presença de id na URL).
-// ============================================================
-
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
@@ -45,7 +40,7 @@ export default function CadastroProjeto() {
     return Object.keys(e).length === 0;
   }, [nome, descricao]);
 
-  // useCallback estabiliza referência do handler
+
   const handleSubmit = useCallback(async () => {
     if (!validate()) return;
     setLoading(true);

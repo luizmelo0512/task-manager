@@ -1,10 +1,3 @@
-// ============================================================
-// Projetos — Página principal de listagem de projetos.
-// Dashboard com gráfico Chart.js + Tabela MUI com ordenação/paginação.
-// Usa SWR para data fetching declarativo (useSWR + fetcher).
-// useMemo para memoizar dados ordenados e filtrados.
-// ============================================================
-
 import { useState, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useSWR from 'swr';

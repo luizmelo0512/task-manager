@@ -1,8 +1,3 @@
-// ============================================================
-// Layout — Shell principal da aplicação.
-// AppBar com glassmorphism, sidebar drawer, breadcrumbs, e <Outlet>.
-// Controla a navegação e o toggle de dark mode via ConfigContext.
-// ============================================================
 
 import { useState } from 'react';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';

@@ -1,9 +1,3 @@
-// ============================================================
-// ConfigContext — Controle de tema (Dark/Light Mode).
-// Provê o ThemeProvider do MUI com tema dinâmico.
-// Persiste a preferência no localStorage.
-// ============================================================
-
 import { createContext, useContext, useState, useMemo, useCallback, type ReactNode } from 'react';
 import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
 
@@ -19,20 +13,14 @@ const ConfigContext = createContext<ConfigContextType>({
   toggleMode: () => {},
 });
 
-/**
- * Hook customizado para acessar configurações globais.
- * Uso: const { mode, toggleMode } = useConfig();
- */
 export const useConfig = () => useContext(ConfigContext);
 
 export function ConfigProvider({ children }: { children: ReactNode }) {
-  // Recupera preferência salva ou usa dark como padrão
   const [mode, setMode] = useState<ThemeMode>(() => {
     const saved = localStorage.getItem('theme_mode');
     return (saved === 'light' || saved === 'dark') ? saved : 'dark';
   });
 
-  // useCallback para estabilizar a referência da função toggle
   const toggleMode = useCallback(() => {
     setMode((prev) => {
       const next = prev === 'dark' ? 'light' : 'dark';
@@ -41,28 +29,26 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  // useMemo para evitar recriar o tema MUI em cada render.
-  // Só recria quando `mode` muda.
   const theme = useMemo(
     () =>
       createTheme({
         palette: {
           mode,
           primary: {
-            main: '#6C63FF',    // Violeta moderno
+            main: '#6C63FF',
             light: '#8B83FF',
             dark: '#4A42D4',
           },
           secondary: {
-            main: '#00D9A5',    // Verde neon
+            main: '#00D9A5',
             light: '#33E3B9',
             dark: '#00A87D',
           },
           ...(mode === 'dark'
             ? {
                 background: {
-                  default: '#0A0E1A',  // Deep dark
-                  paper: '#111827',    // Card background
+                  default: '#0A0E1A',
+                  paper: '#111827',
                 },
               }
             : {
