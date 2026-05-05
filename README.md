@@ -4,6 +4,17 @@ Sistema fullstack para gerenciamento de projetos e tarefas, construído com **La
 
 ---
 
+## 📸 Preview do Sistema
+
+<p align="center">
+  <img src="docs/dashboard.png" width="800" alt="Dashboard e Lista de Projetos">
+</p>
+<p align="center">
+  <img src="docs/kanban.png" width="800" alt="Kanban de Tarefas e Comentários">
+</p>
+
+---
+
 ## 📋 Índice
 
 - [Tecnologias](#-tecnologias)
@@ -249,12 +260,12 @@ php artisan test
 
 ---
 
-## 📝 Padrão de Commits
+## 📝 Padrão de Commits Utilizados no projeto
 
 ```
 PSWCLOUD-{N} ({tipo}): {descrição}
 ```
 
 Exemplos:
-- `PSWCLOUD-1 (feat): Setup ambiente Docker`
+- `PSWCLOUD-1 (feat): Setup ambiente Docker com Laravel e React`
 - `PSWCLOUD-4 (feat): Páginas completas com Dashboard e Kanban`
