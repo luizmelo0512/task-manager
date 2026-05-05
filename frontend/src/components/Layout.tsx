@@ -125,9 +125,27 @@ export default function Layout() {
       </List>
 
       {/* Footer */}
-      <Box sx={{ p: 2, textAlign: 'center' }}>
-        <Typography variant="caption" color="text.secondary">
-          © 2026 Task Manager
+      <Box 
+        sx={{ 
+          p: 2, 
+          textAlign: 'center', 
+          display: 'flex', 
+          flexDirection: 'column', 
+          gap: 0.5,
+          borderTop: '1px solid',
+          borderColor: 'divider',
+          bgcolor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.02)' : 'rgba(0, 0, 0, 0.02)',
+          mt: 'auto'
+        }}
+      >
+        <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.primary', letterSpacing: 0.5 }}>
+          Task Manager 2026
+        </Typography>
+        <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.7rem' }}>
+          Desenvolvido por:{" "}
+          <Box component="span" sx={{ fontWeight: 700, color: 'primary.main' }}>
+            Luiz Henrique de Melo
+          </Box>
         </Typography>
       </Box>
     </Box>
