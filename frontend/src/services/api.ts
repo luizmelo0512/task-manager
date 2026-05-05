@@ -30,12 +30,8 @@ api.interceptors.response.use(
 );
 
 export async function fetchEntity<T>(url: string): Promise<T> {
-  try {
-    const response = await api.get<T>(url);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
+  const response = await api.get<T>(url);
+  return response.data;
 }
 
 export default api;

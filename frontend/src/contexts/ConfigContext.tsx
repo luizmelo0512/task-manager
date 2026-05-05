@@ -8,11 +8,13 @@ interface ConfigContextType {
   toggleMode: () => void;
 }
 
-const ConfigContext = createContext<ConfigContextType>({
+// eslint-disable-next-line react-refresh/only-export-components
+export const ConfigContext = createContext<ConfigContextType>({
   mode: 'dark',
   toggleMode: () => {},
 });
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useConfig = () => useContext(ConfigContext);
 
 export function ConfigProvider({ children }: { children: ReactNode }) {

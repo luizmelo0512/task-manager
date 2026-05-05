@@ -19,12 +19,11 @@ export default function CadastroProjeto() {
   const [descricao, setDescricao] = useState('');
   const [status, setStatus] = useState<ProjetoStatus>('ativo');
   const [loading, setLoading] = useState(false);
-  const [loadingData, setLoadingData] = useState(false);
+  const [loadingData, setLoadingData] = useState(isEdit);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
     if (isEdit && id) {
-      setLoadingData(true);
       ProjetoService.obterPorId(Number(id))
         .then((projeto) => { setNome(projeto.nome); setDescricao(projeto.descricao); setStatus(projeto.status); })
         .catch(() => { enqueueSnackbar('Erro ao carregar projeto.', { variant: 'error' }); navigate('/projetos'); })
@@ -53,8 +52,9 @@ export default function CadastroProjeto() {
         enqueueSnackbar('Projeto criado com sucesso!', { variant: 'success' });
       }
       navigate('/projetos');
-    } catch (err: any) {
-      const be = err?.response?.data?.errors;
+    } catch (err: unknown) {
+      const error = err as { response?: { data?: { errors?: Record<string, string[]> } } };
+      const be = error?.response?.data?.errors;
       if (be) { const m: Record<string, string> = {}; Object.keys(be).forEach((k) => { m[k] = be[k][0]; }); setErrors(m); }
       enqueueSnackbar('Erro ao salvar projeto.', { variant: 'error' });
     } finally { setLoading(false); }

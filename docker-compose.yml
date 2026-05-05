@@ -1,4 +1,3 @@
-version: '3.8'
 
 services:
   db:
@@ -29,6 +28,8 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     container_name: task-manager-web
+    environment:
+      - DOCKER_ENV=true
     volumes:
       - ./frontend:/app
       - /app/node_modules

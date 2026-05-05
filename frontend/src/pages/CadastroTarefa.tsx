@@ -23,13 +23,12 @@ export default function CadastroTarefa() {
   const [dataLimite, setDataLimite] = useState('');
   const [projetoId, setProjetoId] = useState(Number(projetoIdParam) || 0);
   const [loading, setLoading] = useState(false);
-  const [loadingData, setLoadingData] = useState(false);
+  const [loadingData, setLoadingData] = useState(isEdit);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
 
   useEffect(() => {
     if (isEdit && tarefaId) {
-      setLoadingData(true);
       TarefaService.obterPorId(Number(tarefaId))
         .then((t) => {
           setTitulo(t.titulo);
@@ -67,8 +66,9 @@ export default function CadastroTarefa() {
         enqueueSnackbar('Tarefa criada com sucesso!', { variant: 'success' });
       }
       navigate(`/projetos/${projetoId}`);
-    } catch (err: any) {
-      const be = err?.response?.data?.errors;
+    } catch (err: unknown) {
+      const error = err as { response?: { data?: { errors?: Record<string, string[]> } } };
+      const be = error?.response?.data?.errors;
       if (be) { const m: Record<string, string> = {}; Object.keys(be).forEach((k) => { m[k] = be[k][0]; }); setErrors(m); }
       enqueueSnackbar('Erro ao salvar tarefa.', { variant: 'error' });
     } finally { setLoading(false); }

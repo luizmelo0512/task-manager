@@ -14,6 +14,7 @@ const JWTContext = createContext<JWTContextType>({
   logout: () => {},
 });
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => useContext(JWTContext);
 
 export function JWTProvider({ children }: { children: ReactNode }) {
