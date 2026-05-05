@@ -16,7 +16,7 @@ export default defineConfig({
     // Proxy para o backend Laravel — evita CORS em dev
     proxy: {
       '/api': {
-        target: 'http://localhost:8000',
+        target: process.env.DOCKER_ENV ? 'http://api:8000' : 'http://127.0.0.1:8000',
         changeOrigin: true,
       },
     },

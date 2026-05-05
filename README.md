@@ -89,18 +89,39 @@ Request → Middleware (TokenAuth) → Controller → Service → Model → DB
 
 ## 🚀 Instalação e Execução
 
-### Com Docker (recomendado)
+### Com Docker (Recomendado)
+
+Você pode usar os scripts automáticos ou rodar os comandos manualmente.
+
+#### Opção 1: Setup Automático (Script)
+Criei os scripts para subir os containers, instalam as dependências e rodam as migrations sozinhos!
+
+**No Mac ou Linux:**
+```bash
+chmod +x setup.sh
+./setup.sh
+```
+
+**No Windows:**
+Dê dois cliques no arquivo `setup.bat` ou rode no CMD:
+```cmd
+setup.bat
+```
+
+#### Opção 2: Setup Manual
+Se preferir rodar passo a passo no terminal:
 
 ```bash
-# Clonar o repositório
-git clone https://github.com/luizmelo0512/task-manager.git
-cd task-manager
+# 1. Configurar o arquivo de ambiente do Backend
+cp backend/.env.example backend/.env
 
-# Subir os containers
-docker-compose up -d
+# 2. Subir os containers e forçar o build das imagens
+docker compose up -d --build
 
-# Executar migrations
-docker exec task-manager-api php artisan migrate
+# 3. Instalar dependências, preparar o banco e inserir dados de teste
+docker exec task-manager-api composer install
+docker exec task-manager-api php artisan key:generate
+docker exec task-manager-api php artisan migrate --seed
 
 # Acessar
 # Backend: http://localhost:8000/api
@@ -199,9 +220,9 @@ php artisan test
 
 2. **FormRequest para validação**: Regras como "não criar tarefa em projeto inativo" ficam no `StoreTarefaRequest` com closure personalizada, separando validação do controller.
 
-3. **Token fixo**: Conforme escopo, autenticação simplificada com middleware customizado. Em produção, usaríamos JWT com refresh token.
+3. **Autenticação**: Implementação via Bearer token simplificado (`PSWCLOUD-TOKEN-2026`) focada no escopo do desafio.
 
-4. **Campo `atrasada` calculado**: O campo é virtual, calculado no Service (não persiste no banco). Tarefas com prioridade `alta` e `data_limite` vencida recebem `atrasada: true`.
+4. **Regras de Negócio Virtuais**: Campos como `atrasada` são calculados dinamicamente no Service em tempo de execução, evitando dados obsoletos no banco.
 
 ### Frontend
 
@@ -213,28 +234,18 @@ php artisan test
 
 4. **Axios Interceptors**: Injeção automática do Bearer token em todas as requests e tratamento global de 401 (logout automático).
 
-5. **Design System MUI**: Dark Mode padrão com paleta customizada (violeta `#6C63FF` + verde neon `#00D9A5`), glassmorphism no AppBar, micro-animações em cards.
+5. **Design System**: Utilização do Material UI (MUI) com Dark Mode padrão, paleta customizada e componentes estilizados para uma UI/UX mais limpa.
 
 ---
 
 ## ✨ Funcionalidades
 
-### Obrigatórias ✅
-- [x] CRUD completo de Projetos
-- [x] CRUD completo de Tarefas com validações
-- [x] Comentários inline nas tarefas
-- [x] Filtro por status na listagem
-- [x] Tabela com ordenação e paginação
-- [x] Chips coloridos para status e prioridade
-- [x] Dialog de confirmação para exclusão
-- [x] Indicador visual de tarefas atrasadas
-- [x] Layout responsivo
-- [x] Lazy loading de rotas
-
-### Diferenciais ✅
-- [x] Kanban Board com drag & drop (mudança de status)
-- [x] Dashboard com gráfico Chart.js (distribuição de tarefas)
-- [x] Dark Mode toggle via Context API
+- **Gestão de Projetos e Tarefas**: CRUD completo com validações isoladas em FormRequests.
+- **Kanban Board**: Interface drag & drop para mudança rápida de status das tarefas.
+- **Dashboard Analítico**: Gráficos integrados com Chart.js.
+- **Comentários**: Sistema de comentários atrelados às tarefas.
+- **Listagem Avançada**: Tabelas com ordenação, paginação e filtros dinâmicos de status.
+- **UX e Feedback Visual**: Indicadores visuais para tarefas atrasadas, dialogs de confirmação e sistema de temas (Dark/Light mode).
 
 ---
 
