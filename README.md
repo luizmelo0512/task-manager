@@ -118,10 +118,10 @@ cp backend/.env.example backend/.env
 # 2. Subir os containers e forçar o build das imagens
 docker compose up -d --build
 
-# 3. Instalar dependências e preparar o banco
+# 3. Instalar dependências, preparar o banco e inserir dados de teste
 docker exec task-manager-api composer install
 docker exec task-manager-api php artisan key:generate
-docker exec task-manager-api php artisan migrate
+docker exec task-manager-api php artisan migrate --seed
 
 # Acessar
 # Backend: http://localhost:8000/api

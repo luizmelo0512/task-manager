@@ -21,8 +21,8 @@ docker exec task-manager-api composer install
 echo 🔑 Gerando Application Key...
 docker exec task-manager-api php artisan key:generate
 
-echo 🗄️ Rodando migrations do banco de dados...
-docker exec task-manager-api php artisan migrate --force
+echo 🗄️ Rodando migrations e inserindo dados de teste...
+docker exec task-manager-api php artisan migrate --force --seed
 
 echo ✅ Setup automatico finalizado com sucesso!
 echo 🌐 Acesse o Frontend em: http://localhost:5173
